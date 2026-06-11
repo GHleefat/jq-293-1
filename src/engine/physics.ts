@@ -6,6 +6,7 @@ export interface CraftState {
   flightPathAngle: number;
   x: number;
   pitch: number;
+  trueAoA: number;
   mach: number;
   gForce: number;
   skinTemp: number;
@@ -113,13 +114,15 @@ export function stepPhysics(
   const { altitude, velocity, flightPathAngle, x, pitch } = state;
   const h = Math.max(0, altitude);
 
+  const trueAoA = pitch - flightPathAngle;
+
   const g = gravityAt(h);
   const rho = airDensity(h);
   const T_atm = atmosphereTemp(h);
   const a = speedOfSound(T_atm);
   const mach = velocity / a;
 
-  const { cd, cl } = aeroCoeffs(pitch, mach);
+  const { cd, cl } = aeroCoeffs(trueAoA, mach);
   const dynPressure = 0.5 * rho * velocity * velocity;
   const D = dynPressure * REFERENCE_AREA * cd;
   const L = dynPressure * REFERENCE_AREA * cl;
@@ -140,7 +143,7 @@ export function stepPhysics(
   let newH = Math.max(0, h + dh_dt * dt);
   let newX = x + (dx_dt * dt) / 1000;
 
-  const rawHeat = suttonGravesHeatRate(rho, velocity, pitch);
+  const rawHeat = suttonGravesHeatRate(rho, velocity, trueAoA);
   const heatRate = isFinite(rawHeat) ? Math.max(0, rawHeat) : 0;
 
   let { skinTemp, cabinTemp, shieldRemaining, shieldMassPerArea, totalHeat } =
@@ -240,6 +243,7 @@ export function stepPhysics(
     flightPathAngle: newGamma,
     x: newX,
     pitch,
+    trueAoA,
     mach: newV / speedOfSound(atmosphereTemp(newH)),
     gForce,
     skinTemp,
@@ -265,12 +269,14 @@ export function createInitialState(
   const T0 = atmosphereTemp(h0);
   const a0 = speedOfSound(T0);
   const massPerAreaInitial = (material.thickness / 1000) * material.density;
+  const trueAoA = pitch - INITIAL_FLIGHT_PATH_ANGLE;
   return {
     altitude: INITIAL_ALTITUDE,
     velocity: INITIAL_VELOCITY,
     flightPathAngle: INITIAL_FLIGHT_PATH_ANGLE,
     x: 0,
     pitch,
+    trueAoA,
     mach: INITIAL_VELOCITY / a0,
     gForce: 0,
     skinTemp: 200,

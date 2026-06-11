@@ -90,6 +90,16 @@ export default function Dashboard() {
           thresholds={{ warn: 6, danger: 10, dir: "up" } as any}
           format={(v) => v.toFixed(1)}
         />
+        <Gauge
+          label="真实迎角 α AOA"
+          value={state.trueAoA * (180 / Math.PI)}
+          unit="°"
+          min={-20}
+          max={60}
+          colorMode="auto"
+          thresholds={{ warn: 35, danger: 48, dir: "up" } as any}
+          format={(v) => v.toFixed(1)}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-3">

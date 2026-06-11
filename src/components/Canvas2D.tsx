@@ -358,8 +358,8 @@ export default function Canvas2D() {
 
       ctx.save();
       ctx.translate(craft.sx, craft.sy);
-      const pitch = st.pitch - st.flightPathAngle;
-      ctx.rotate(-pitch);
+      const trueAoA = st.trueAoA;
+      ctx.rotate(-trueAoA);
       const mat: Material = getMaterial(store.materialId);
 
       const scale = 1;

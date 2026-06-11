@@ -76,13 +76,33 @@ export default function ControlPanel() {
               迎角控制 Attack Angle (α)
             </div>
           </div>
-          <div className="flex items-baseline gap-1">
-            <span className="gauge-value text-lg glow-text-blue">
-              {pitchDeg.toFixed(0)}°
-            </span>
-            <span className="text-xs text-slate-500 font-mono">
-              γ {fpa.toFixed(1)}°
-            </span>
+          <div className="flex items-baseline gap-3">
+            <div className="text-center">
+              <div className="text-[9px] uppercase tracking-wider text-slate-500">
+                机身俯仰
+              </div>
+              <span className="gauge-value text-lg glow-text-blue">
+                {pitchDeg.toFixed(0)}°
+              </span>
+            </div>
+            <div className="text-slate-600">|</div>
+            <div className="text-center">
+              <div className="text-[9px] uppercase tracking-wider text-slate-500">
+                真实迎角 α
+              </div>
+              <span className="gauge-value text-lg glow-text-orange">
+                {(state.trueAoA * (180 / Math.PI)).toFixed(1)}°
+              </span>
+            </div>
+            <div className="text-slate-600">|</div>
+            <div className="text-center">
+              <div className="text-[9px] uppercase tracking-wider text-slate-500">
+                轨迹角 γ
+              </div>
+              <span className="gauge-value text-lg text-slate-300">
+                {fpa.toFixed(1)}°
+              </span>
+            </div>
           </div>
         </div>
         <div className="relative">
