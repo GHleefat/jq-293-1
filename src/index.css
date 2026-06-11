@@ -284,6 +284,7 @@ body {
   outline: none;
   opacity: 0.9;
   transition: opacity 0.2s;
+  touch-action: none;
 }
 
 .slider-track:hover {

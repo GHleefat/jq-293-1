@@ -59,7 +59,9 @@ export const useSimulationStore = create<SimulationStore>((set, get) => {
     setPitchDeg: (deg) => {
       const d = Math.max(-15, Math.min(40, deg));
       set((s) => {
-        const next = { ...s.state, pitch: (d * Math.PI) / 180 };
+        const pitchRad = (d * Math.PI) / 180;
+        const trueAoA = pitchRad - s.state.flightPathAngle;
+        const next = { ...s.state, pitch: pitchRad, trueAoA };
         return { pitchDeg: d, state: next };
       });
     },
@@ -143,3 +145,7 @@ export const useSimulationStore = create<SimulationStore>((set, get) => {
 });
 
 export { getMaterial };
+
+if (typeof window !== "undefined") {
+  (window as any).__simStore = useSimulationStore;
+}

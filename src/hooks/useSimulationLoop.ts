@@ -12,9 +12,11 @@ export function useSimulationLoop() {
   const subStepAccum = useRef<number>(0);
 
   useEffect(() => {
-    const unsub = useSimulationStore.subscribe((state, prevState) => {
-      if (state.materialId !== prevState.materialId) {
+    let prevMaterialId = useSimulationStore.getState().materialId;
+    const unsub = useSimulationStore.subscribe((state) => {
+      if (state.materialId !== prevMaterialId) {
         matRef.current = getMaterial(state.materialId);
+        prevMaterialId = state.materialId;
       }
     });
     return unsub;
