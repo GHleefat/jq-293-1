@@ -270,6 +270,7 @@ export function createInitialState(
   const a0 = speedOfSound(T0);
   const massPerAreaInitial = (material.thickness / 1000) * material.density;
   const trueAoA = pitch - INITIAL_FLIGHT_PATH_ANGLE;
+  const { cd, cl } = aeroCoeffs(trueAoA, INITIAL_VELOCITY / a0);
   return {
     altitude: INITIAL_ALTITUDE,
     velocity: INITIAL_VELOCITY,
@@ -286,7 +287,34 @@ export function createInitialState(
     shieldMassPerArea: massPerAreaInitial,
     totalHeat: 0,
     time: 0,
-    cd: 0.15,
-    cl: 0,
+    cd,
+    cl,
+  };
+}
+
+export function recomputeAeroFromPitch(
+  state: CraftState,
+  newPitchRad: number,
+): Partial<CraftState> {
+  const trueAoA = newPitchRad - state.flightPathAngle;
+  const h = Math.max(0, state.altitude);
+  const rho = airDensity(h);
+  const T_atm = atmosphereTemp(h);
+  const a = speedOfSound(T_atm);
+  const mach = state.velocity / a;
+  const { cd, cl } = aeroCoeffs(trueAoA, mach);
+  const dynPressure = 0.5 * rho * state.velocity * state.velocity;
+  const D = dynPressure * REFERENCE_AREA * cd;
+  const gForce = D / CRAFT_MASS / G0;
+  const rawHeat = suttonGravesHeatRate(rho, state.velocity, trueAoA);
+  const heatRate = isFinite(rawHeat) ? Math.max(0, rawHeat) : 0;
+  return {
+    pitch: newPitchRad,
+    trueAoA,
+    mach,
+    cd,
+    cl,
+    gForce,
+    heatRate,
   };
 }

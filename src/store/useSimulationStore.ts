@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { CraftState } from "../engine/physics";
-import { createInitialState } from "../engine/physics";
+import { createInitialState, recomputeAeroFromPitch } from "../engine/physics";
 import { DEFAULT_MATERIAL_ID, MATERIALS } from "../data/materials";
 import type { Material } from "../data/materials";
 
@@ -60,8 +60,8 @@ export const useSimulationStore = create<SimulationStore>((set, get) => {
       const d = Math.max(-15, Math.min(40, deg));
       set((s) => {
         const pitchRad = (d * Math.PI) / 180;
-        const trueAoA = pitchRad - s.state.flightPathAngle;
-        const next = { ...s.state, pitch: pitchRad, trueAoA };
+        const aeroUpdates = recomputeAeroFromPitch(s.state, pitchRad);
+        const next = { ...s.state, ...aeroUpdates };
         return { pitchDeg: d, state: next };
       });
     },

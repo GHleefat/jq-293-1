@@ -20,14 +20,15 @@ export default function Home() {
     <div className="h-full w-full flex flex-col min-h-screen overflow-hidden">
       <Header />
       <main
-        className="flex-1 p-4 lg:p-6 gap-4 lg:gap-5 min-h-0
+        className="flex-1 p-4 lg:p-6 gap-4 lg:gap-5 min-h-0 overflow-y-auto
           grid grid-cols-1
           grid-rows-[auto_auto_auto]
           2xl:grid-cols-[minmax(0,1fr)_420px]
           2xl:grid-rows-[minmax(420px,1fr)_auto]
-          2xl:[&>*:nth-child(1)]:row-span-2"
+          2xl:[&>*:nth-child(1)]:row-span-2
+          2xl:overflow-hidden"
       >
-        <div className="relative min-h-[480px] md:min-h-[540px] h-full order-1 2xl:order-none flex flex-col">
+        <div className="relative min-h-[420px] md:min-h-[540px] h-full order-1 2xl:order-none flex flex-col 2xl:min-h-0">
           <div className="flex-1 min-h-0 relative">
             <Canvas2D />
             {status === "ended" && endMessage && (
