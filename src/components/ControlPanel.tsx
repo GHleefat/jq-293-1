@@ -34,7 +34,7 @@ export default function ControlPanel() {
   const fpa = (state.flightPathAngle * 180) / Math.PI;
 
   return (
-    <div className="panel panel-glow p-5 flex flex-col gap-4 h-full">
+    <div className="panel panel-glow p-5 flex flex-col gap-4 2xl:h-full">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Settings2 className="w-4 h-4 text-amber-400" />

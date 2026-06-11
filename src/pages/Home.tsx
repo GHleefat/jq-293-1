@@ -28,8 +28,8 @@ export default function Home() {
           2xl:[&>*:nth-child(1)]:row-span-2
           2xl:overflow-hidden"
       >
-        <div className="relative min-h-[420px] md:min-h-[540px] h-full order-1 2xl:order-none flex flex-col 2xl:min-h-0">
-          <div className="flex-1 min-h-0 relative">
+        <div className="relative min-h-[420px] md:min-h-[540px] order-1 2xl:order-none flex flex-col 2xl:h-full 2xl:min-h-0">
+          <div className="flex-1 2xl:min-h-0 relative">
             <Canvas2D />
             {status === "ended" && endMessage && (
               <div className="result-banner rounded-[14px]">
@@ -93,11 +93,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="order-2 2xl:order-none flex flex-col min-h-0">
+        <div className="order-2 2xl:order-none flex flex-col min-h-[50vh] 2xl:min-h-0 2xl:h-full">
           <Dashboard />
         </div>
 
-        <div className="col-span-1 2xl:col-span-1 order-3 min-h-0 2xl:max-h-[calc(50vh-2rem)] 2xl:overflow-y-auto 2xl:pr-1">
+        <div className="col-span-1 2xl:col-span-1 order-3 2xl:max-h-[calc(50vh-2rem)] 2xl:overflow-y-auto 2xl:pr-1">
           <ControlPanel />
         </div>
       </main>

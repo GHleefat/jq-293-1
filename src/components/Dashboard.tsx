@@ -35,7 +35,7 @@ export default function Dashboard() {
   const totalHeatMJ = state.totalHeat / 1e6;
 
   return (
-    <div className="panel panel-glow p-5 flex flex-col gap-4 h-full overflow-auto">
+    <div className="panel panel-glow p-5 flex flex-col gap-4 2xl:h-full 2xl:overflow-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Activity className="w-4 h-4 text-sky-400" />
